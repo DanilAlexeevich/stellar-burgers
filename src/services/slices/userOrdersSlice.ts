@@ -22,8 +22,8 @@ export const fetchUserOrders = createAsyncThunk<
   try {
     const orders = await getOrdersApi();
     return orders;
-  } catch (err: any) {
-    return rejectWithValue(err.message || 'Не удалось загрузить заказы');
+  } catch (err: unknown) {
+    return rejectWithValue('Не удалось загрузить заказы');
   }
 });
 

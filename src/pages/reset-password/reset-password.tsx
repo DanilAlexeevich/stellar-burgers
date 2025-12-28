@@ -26,8 +26,8 @@ export const ResetPassword: FC = () => {
       await resetPasswordApi({ password, token });
       localStorage.removeItem('resetPassword');
       navigate('/login', { replace: true });
-    } catch (err: any) {
-      setErrorText(err.message || 'Ошибка сброса пароля. Проверьте код.');
+    } catch (err: unknown) {
+      setErrorText('Ошибка сброса пароля.');
     } finally {
       setIsLoading(false);
     }

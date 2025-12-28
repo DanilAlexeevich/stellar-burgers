@@ -5,7 +5,7 @@ import { BurgerConstructorUI } from '@ui';
 import { orderBurgerApi } from '../../utils/burger-api';
 import { clearConstructor } from '../../services/slices/constructorSlice';
 import { selectUser } from '../../services/slices/userSlice';
-import { TOrder } from '@utils-types';
+import { TIngredient, TOrder } from '@utils-types';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ export const BurgerConstructor: FC = () => {
   const price = useMemo(() => {
     const bunPrice = bun ? bun.price * 2 : 0;
     const ingredientsPrice = ingredients.reduce(
-      (sum: number, item: any) => sum + item.price,
+      (sum: number, item: TIngredient) => sum + item.price,
       0
     );
     return bunPrice + ingredientsPrice;

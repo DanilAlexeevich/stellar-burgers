@@ -25,8 +25,8 @@ export const fetchOrderByNumber = createAsyncThunk<
       return rejectWithValue('Заказ не найден');
     }
     return data.orders[0];
-  } catch (err: any) {
-    return rejectWithValue(err.message || 'Ошибка загрузки заказа');
+  } catch (err: unknown) {
+    return rejectWithValue('Ошибка загрузки заказа');
   }
 });
 

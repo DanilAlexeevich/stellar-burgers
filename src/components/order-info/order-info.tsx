@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
 import { useParams } from 'react-router-dom';
 import {
@@ -7,16 +7,19 @@ import {
 } from '../../services/slices/orderSlice';
 import { Preloader } from '../ui/preloader/preloader';
 import { OrderInfoUI } from '../ui/order-info';
-import { useMemo } from 'react';
 import { TIngredient } from '@utils-types';
-import { selectIngredients } from '../../services/slices/ingredientsSlice';
+import {
+  selectIngredients,
+  fetchIngredients
+} from '../../services/slices/ingredientsSlice';
 
 export const OrderInfo: FC = () => {
   const dispatch = useDispatch();
   const { number } = useParams<{ number: string }>();
+
   const order = useSelector((state) => state.order.order);
   const isLoading = useSelector((state) => state.order.isLoading);
-  const allIngredients = useSelector(selectIngredients);
+  const allIngredients: TIngredient[] = useSelector(selectIngredients);
 
   useEffect(() => {
     if (number) {
@@ -28,29 +31,29 @@ export const OrderInfo: FC = () => {
     };
   }, [number, dispatch]);
 
+  useEffect(() => {
+    if (!allIngredients.length) {
+      dispatch(fetchIngredients());
+    }
+  }, [dispatch, allIngredients.length]);
+
   const orderInfo = useMemo(() => {
-    if (!order || !allIngredients.length) return null;
+    if (!order || allIngredients.length === 0) return null;
 
     const date = new Date(order.createdAt);
 
-    type TIngredientsWithCount = {
-      [key: string]: TIngredient & { count: number };
-    };
+    const ingredientsInfo: Record<string, TIngredient & { count: number }> = {};
 
-    const ingredientsInfo = order.ingredients.reduce(
-      (acc: TIngredientsWithCount, item) => {
-        if (!acc[item]) {
-          const ingredient = allIngredients.find((ing) => ing._id === item);
-          if (ingredient) {
-            acc[item] = { ...ingredient, count: 1 };
-          }
+    order.ingredients.forEach((id: string) => {
+      const ingredient = allIngredients.find((ing) => ing._id === id);
+      if (ingredient) {
+        if (ingredientsInfo[id]) {
+          ingredientsInfo[id].count++;
         } else {
-          acc[item].count++;
+          ingredientsInfo[id] = { ...ingredient, count: 1 };
         }
-        return acc;
-      },
-      {}
-    );
+      }
+    });
 
     const total = Object.values(ingredientsInfo).reduce(
       (acc, item) => acc + item.price * item.count,
@@ -59,7 +62,7 @@ export const OrderInfo: FC = () => {
 
     return {
       ...order,
-      ingredientsInfo: ingredientsInfo,
+      ingredientsInfo,
       date,
       total
     };
@@ -69,5 +72,12 @@ export const OrderInfo: FC = () => {
     return <Preloader />;
   }
 
-  return <OrderInfoUI orderInfo={orderInfo} />;
+  return (
+    <div className='pb-10'>
+      <p className='text text_type_digits-large mb-6 text-center'>
+        #{orderInfo.number}
+      </p>
+      <OrderInfoUI orderInfo={orderInfo} />
+    </div>
+  );
 };

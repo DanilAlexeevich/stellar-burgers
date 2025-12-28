@@ -24,8 +24,8 @@ export const fetchIngredients = createAsyncThunk<
   try {
     const data = await getIngredientsApi();
     return data;
-  } catch (error: any) {
-    return rejectWithValue(error.message || 'Ингридиенты не загрузились(');
+  } catch (error: unknown) {
+    return rejectWithValue('Ингридиенты не загрузились(');
   }
 });
 

@@ -19,8 +19,8 @@ export const ForgotPassword: FC = () => {
       await forgotPasswordApi({ email });
       localStorage.setItem('resetPassword', 'true');
       navigate('/reset-password', { replace: true });
-    } catch (err: any) {
-      setErrorText(err.message || 'Ошибка отправки. Попробуйте позже.');
+    } catch (err: unknown) {
+      setErrorText('Ошибка отправки. Попробуйте позже.');
     } finally {
       setIsLoading(false);
     }

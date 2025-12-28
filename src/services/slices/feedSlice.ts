@@ -26,8 +26,8 @@ export const fetchFeeds = createAsyncThunk<
   try {
     const data = await getFeedsApi();
     return data;
-  } catch (err: any) {
-    return rejectWithValue(err.message || 'Не удалось загрузить ленту');
+  } catch (err: unknown) {
+    return rejectWithValue('Не удалось загрузить ленту');
   }
 });
 
