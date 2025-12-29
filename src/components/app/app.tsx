@@ -17,6 +17,7 @@ import {
   NotFound404
 } from '@pages';
 import { IngredientDetails, OrderInfo, Modal, AppHeader } from '@components';
+import { fetchIngredients } from '../../services/slices/ingredientsSlice';
 
 import { IngredientPage } from '../../pages/ingredientPage';
 import { OrderPage } from '../../pages/orderPage';
@@ -37,6 +38,7 @@ const ModalSwitch = () => {
 
   useEffect(() => {
     dispatch(checkUserAuth());
+    dispatch(fetchIngredients());
   }, [dispatch]);
 
   return (

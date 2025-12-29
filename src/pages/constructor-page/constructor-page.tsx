@@ -1,6 +1,4 @@
-import { useEffect } from 'react';
 import { useSelector, useDispatch } from '../../services/store';
-import { fetchIngredients } from '../../services/slices/ingredientsSlice';
 
 import styles from './constructor-page.module.css';
 
@@ -9,17 +7,7 @@ import { BurgerConstructor } from '../../components';
 import { Preloader } from '@ui';
 
 export const ConstructorPage = () => {
-  const dispatch = useDispatch();
-
-  const { ingredients, isLoading, error } = useSelector(
-    (state) => state.ingredients
-  );
-
-  useEffect(() => {
-    if (ingredients.length === 0) {
-      dispatch(fetchIngredients());
-    }
-  }, [dispatch, ingredients.length]);
+  const { isLoading, error } = useSelector((state) => state.ingredients);
 
   if (isLoading) {
     return <Preloader />;

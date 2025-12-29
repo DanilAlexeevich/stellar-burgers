@@ -8,10 +8,7 @@ import {
 import { Preloader } from '../ui/preloader/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
-import {
-  selectIngredients,
-  fetchIngredients
-} from '../../services/slices/ingredientsSlice';
+import { selectIngredients } from '../../services/slices/ingredientsSlice';
 
 export const OrderInfo: FC = () => {
   const dispatch = useDispatch();
@@ -30,12 +27,6 @@ export const OrderInfo: FC = () => {
       dispatch(clearOrder());
     };
   }, [number, dispatch]);
-
-  useEffect(() => {
-    if (!allIngredients.length) {
-      dispatch(fetchIngredients());
-    }
-  }, [dispatch, allIngredients.length]);
 
   const orderInfo = useMemo(() => {
     if (!order || allIngredients.length === 0) return null;
