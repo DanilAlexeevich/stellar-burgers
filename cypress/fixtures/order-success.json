@@ -1,0 +1,13 @@
+{
+  "success": true,
+  "name": "Фантастический бургер",
+  "order": {
+    "number": 54321,
+    "name": "Фантастический бургер",
+    "status": "done",
+    "createdAt": "2025-02-22T12:00:00.000Z",
+    "updatedAt": "2025-02-22T12:01:00.000Z",
+    "_id": "order123456789",
+    "ingredients": ["643d69a5c3f7b9001cfa093c", "643d69a5c3f7b9001cfa0941"]
+  }
+}
