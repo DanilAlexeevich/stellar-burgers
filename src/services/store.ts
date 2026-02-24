@@ -47,4 +47,4 @@ export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
 
 export default store;
 
-export {rootReducer};
+export { rootReducer };

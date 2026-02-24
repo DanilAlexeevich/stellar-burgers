@@ -6,6 +6,7 @@ describe('rootReducer — правильная инициализация', () =
 
     expect(state).toBeDefined();
     expect(typeof state).toBe('object');
+
     expect(state).toHaveProperty('ingredients');
     expect(state).toHaveProperty('constructor');
     expect(state).toHaveProperty('feed');

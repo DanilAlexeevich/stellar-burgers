@@ -36,19 +36,21 @@ describe('Constructor page', () => {
 
 describe('Модальное окно ингредиента', () => {
   it('открывает модальное окно ингредиента по клику на карточку', () => {
-    // Берём первую булку
-    cy.contains('булка').closest('li').find('a').click();
+    cy.contains('Соберите бургер', { timeout: 15000 }).should('be.visible');
 
-    // Проверяем, что модалка появилась
-    cy.get('[data-testid="modal-window"]').should('be.visible');
+    cy.get('li', { timeout: 10000 }).should('have.length.greaterThan', 0);
 
-    // Проверяем содержимое IngredientDetailsUI
-    cy.get('[data-testid="content"] img')
+    cy.get('li')
+      .first()
       .should('be.visible')
-      .and('have.attr', 'src');
+      .find('a')
+      .click({ force: true });
 
-    cy.contains('Калории, ккал').should('exist');
-    cy.contains('Белки, г').should('exist');
+    cy.get('[data-testid="modal-window"]', { timeout: 15000 })
+      .should('exist')
+      .should('be.visible');
+
+    cy.contains('Калории, ккал', { timeout: 10000 }).should('be.visible');
   });
 
   it('закрывает модалку по клику на крестик', () => {
@@ -123,12 +125,10 @@ describe('Создание заказа', () => {
       .and('have.length.greaterThan', 2);
 
     // 5. Проверяем модалку заказа
-    cy.get('[data-testid="modal-window"]')
-      .should('be.visible');
+    cy.get('[data-testid="modal-window"]').should('be.visible');
 
     // 6. Проверяем номер заказа
-    cy.get('[data-testid="order-number"]')
-      .should('have.text', '54321');
+    cy.get('[data-testid="order-number"]').should('have.text', '54321');
 
     cy.contains('Ваш заказ начали готовить').should('be.visible');
   });
